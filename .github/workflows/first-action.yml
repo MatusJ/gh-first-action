@@ -10,3 +10,9 @@ jobs:
         run: |
           echo "bye"
           echo "bye bye"
+  second-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Print something
+        run: echo "something"
+
