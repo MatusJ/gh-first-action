@@ -1,5 +1,21 @@
 name: First Workflow
-on: workflow_dispatch
+on: 
+  workflow_dispatch:
+  pull-request:
+    types:
+      - opened
+    branches:
+      - main
+  push:
+    branches:
+      - main #main
+      - 'feat/**' #feat/new feat/new/button
+      - 'dev-*' #dev-new dev-this-is-new
+    paths:
+      - '.github/*' #needs at least one file from there changed
+    paths-ignore:
+      - '.github/workflows/*' #do nothing if at leadt one file from there is changed
+      #those paths events/filters work if AT LEAST ONE FILE
 jobs:
   first-job:
     runs-on: ubuntu-latest
@@ -11,8 +27,18 @@ jobs:
           echo "bye"
           echo "bye bye"
   second-job:
+    needs: first-job
     runs-on: ubuntu-latest
     steps:
-      - name: Print something
-        run: echo "something"
+      - name: Output event data
+        run: echo "${{ toJSON(github.event) }}"
+  third-job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: download repository code on runner
+        uses: actions/checkout@v3
+      - name: install nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
 
