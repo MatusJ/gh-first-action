@@ -11,8 +11,9 @@ on:
       - main #main
       - 'feat/**' #feat/new feat/new/button
       - 'dev-*' #dev-new dev-this-is-new
-    paths:
-      - '.github/*' #needs at least one file from there changed
+    #you can only define one of paths and paths-ignore for a single event
+    #paths:
+      #- '.github/*' #needs at least one file from there changed
     paths-ignore:
       - '.github/workflows/*' #do nothing if at leadt one file from there is changed
       #those paths events/filters work if AT LEAST ONE FILE
