@@ -33,6 +33,12 @@ jobs:
         run: |
           echo "bye"
           echo "bye bye"
+      - name: Using step env
+        env: 
+          my-step-var: step-value-here
+        run: |
+          echo "step var: $my-step-var"
+          echo "step var: ${{ env.my-step-var }}"
   second-job:
     needs: first-job
     env:
