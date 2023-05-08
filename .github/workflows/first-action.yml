@@ -4,10 +4,12 @@ on:
   pull_request:
     types:
       - opened
+    # targeted branch
+    # to what brach, not from what branch
     branches:
       - main
   push:
-    #targeted branch, not from ehat branch I merge, but where I merge
+    #targeted branch, not from what branch I merge, but where I merge
     branches:
       - main #main
       - 'feat/**' #feat/new feat/new/button
