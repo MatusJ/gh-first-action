@@ -7,6 +7,7 @@ on:
     branches:
       - main
   push:
+    #targeted branch, not from ehat branch I merge, but where I merge
     branches:
       - main #main
       - 'feat/**' #feat/new feat/new/button
