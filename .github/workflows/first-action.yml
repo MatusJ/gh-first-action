@@ -10,7 +10,7 @@ on:
       - main
   push:
     # if last commit in the end of commit message has [skip ci] (or similar, see Skip workflows run) then it will not trigger wrkflow this time
-    #targeted branch, not from what branch I merge, but where I merge
+    # targeted branch
     branches:
       - main #main
       - 'feat/**' #feat/new feat/new/button
@@ -20,7 +20,9 @@ on:
       #- '.github/*' #needs at least one file from there changed
     paths-ignore:
       - '.github/workflows/*' #do nothing if at leadt one file from there is changed
-      #those paths events/filters work if AT LEAST ONE FILE
+      #those paths for events filters work if AT LEAST ONE FILE
+env:
+  my-variable: workflow-value-here #scope in whole workflow, when the same var name is in job then it uses local variable
 jobs:
   first-job:
     runs-on: ubuntu-latest
@@ -33,11 +35,20 @@ jobs:
           echo "bye bye"
   second-job:
     needs: first-job
+    env:
+      my-job-variable: job-value-here #scope only in the job
     runs-on: ubuntu-latest
     steps:
       - name: Output event data
         run: echo "${{ toJSON(github.event) }}"
+      - name: Print variables
+        run: |
+          echo "my-variable: $my-variable"
+          echo "my-variable: ${{ env.my-variable }}"
+          echo "my-job-variable: $my-job-variable"
+          echo "my-job-variable: ${{ env.my-job-variable }}"
   third-job:
+    needs: [ second-job ]
     runs-on: ubuntu-latest
     steps:
       - name: download repository code on runner
