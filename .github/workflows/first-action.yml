@@ -57,4 +57,21 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: 18
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: readme-file
+          path: Read.md
+  fourth-job:
+    needs: third-job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: readme-file
+      - name: Show files
+        run: ls
+    
+
 
