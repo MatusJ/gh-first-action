@@ -9,6 +9,7 @@ on:
     branches:
       - main
   push:
+    # if last commit in the end of commit message has [ skip ci ] then it will not trigger wrkflow this time
     #targeted branch, not from what branch I merge, but where I merge
     branches:
       - main #main
