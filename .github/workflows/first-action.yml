@@ -43,6 +43,8 @@ jobs:
     needs: first-job
     env:
       my-job-variable: job-value-here #scope only in the job
+    outputs:
+      output-value: ${{ steps.set-output.outputs.output-value }}
     runs-on: ubuntu-latest
     steps:
       - name: Output event data
@@ -53,6 +55,10 @@ jobs:
           echo "my-variable: ${{ env.my-variable }}"
           echo "my-job-variable: $my-job-variable"
           echo "my-job-variable: ${{ env.my-job-variable }}"
+      - name: Set output-value variable
+        id: set-output
+        run: |
+          echo "output-value=42" >> GITHUB_TOKEN
   third-job:
     needs: [ second-job ]
     runs-on: ubuntu-latest
@@ -68,6 +74,17 @@ jobs:
         with:
           name: readme-file
           path: README.md
+      - name: Print job output
+        run: |
+          echo "${{ needs.second-job.outputs.output-value }}
+      # runs there and again at the end of the job - if anything changed till the end of execution of the job, and refresh cache directory if something changed
+      # good for downloading dependencies for one job, when we trigger workflow many times and probably dependencies are not upgraded that much
+      # same cache directory is used everywhere som in another job when I install same dependencies It could be used too and save a lot of execution time of runner
+      - name: Cache # is using one cache directory for all jobs/steps
+        uses: actions/cache@v3
+        with:
+          path: ~/README.md # select one file
+          key: unique-key # better-use-generated-hash
   fourth-job:
     needs: third-job
     runs-on: ubuntu-latest
