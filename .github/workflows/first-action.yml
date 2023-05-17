@@ -99,14 +99,12 @@ jobs:
   fifth-job:
     runs-on: ubuntu-latest
     steps:
-      first-step:
-        - name: Outcome value
-          id: first-step
-          run: echo "do something"
-      second-step:
-        - name: Do condition
-          if: failure() && steps.first-step.outcome == 'failure'
-          run: echo "first-step was successful"
+      - name: Outcome value
+        id: first-step
+        run: echo "do something"
+      - name: Do condition
+        if: failure() && steps.first-step.outcome == 'failure'
+        run: echo "first-step was successful"
     
 
 
